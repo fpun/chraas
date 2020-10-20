@@ -1,9 +1,9 @@
-# Chrome as a Service
+# CHRome As A Service
 
 Chraas: an Express server running headless Chrome as a service.
-1. Supports setting of custom headers, cookies and proxies through a JSON API.
+1. Supports setting of **custom headers, cookies and proxies** through a JSON API.
 2. Returns cookies set by the server as Set-Cookie headers
-3. Implements stealth tactics provided by the great [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth)
+3. Implements **stealth tactics** provided by the great [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth)
 
 ## Usage
 
@@ -22,9 +22,7 @@ $ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 $ dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 ```
 
-Default configuration can be overriden on .env in particular
-1. Protection of the server with an api key
-2. Path of the chrome executable 
+Default configuration can be overriden on .env in particular to set an api key to protect the server in production
 
 A docker image of the project can be built by running
 ```sh
@@ -35,36 +33,36 @@ in the project's folder
 ## Run the server
 In the project folder, run
 ```sh
-npm index.js
+node index.js
 ```
-Server will be listening on port 8080 by default, port can be overriden in .env config
+Server will be listening on **port 8080** by default, port can be overriden in .env config
 
 ## API
 
 The server exposes three endpoints:
-1. content -> return the target url's html content
-2. screenshot -> returns a full page screenshot of the target page
-3. json -> returns the target url's content as json
+1. **content** -> returns the target url's html content
+2. **screenshot** -> returns a full page screenshot of the target page
+3. **json** -> returns the target url's content as json
 
-You can extract content with custom proxies, headers and cookies
-using the server's JSON API with the format below
+Set custom proxies, headers and cookies using the server's JSON API with the format below.
+url is the only required input, along with api_key if set in .env config file
 
-```json
+```js
 {
-    "url":"xxx", // required
-    "api_key":"xxx", // optional, if set in .env config
-    "proxy": { // optional
+    "url":"xxx",
+    "api_key":"xxx",
+    "proxy": {
         "host":"xxx",
         "port":"xxx",
         "user":"xxx",
         "password":"xxx" 
     },
-    "headers": { // optional
+    "headers": {
         "Accept":"xxx",
         "Accept-Language":"xxx",
         "XXX":"xxx"
     },
-    "cookies": [  // optional
+    "cookies": [
         {
         "name":"xxx",
         "value":"xxx",
