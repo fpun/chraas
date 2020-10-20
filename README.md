@@ -2,13 +2,13 @@
 
 **Chraas:** an Express server running headless Chrome as a service.
 1. Supports setting of **custom headers, cookies and proxies** through a JSON API.
-2. Returns cookies set by the server as Set-Cookie headers
+2. Returns cookies set by the target server as Set-Cookie headers
 3. Implements **stealth tactics** provided by the great [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth)
 
 ## Usage
 
-Can be used as a gateway for scraping websites where javascript needs to be
-rendered or where resources are blocked if javascript is not executed.
+Can be used as a gateway server for scraping websites where javascript needs to be
+rendered or where resources are blocked if javascript capabilities are not available (bot detection, browser fingerprinting)
 
 ## Install
 
