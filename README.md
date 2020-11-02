@@ -22,7 +22,7 @@ $ dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 ```
 Make a copy of .env.template and rename it .env
 
-Default configuration can be overriden on the .env config file, in particular to **set an api key to protect the server in production**.
+Default configuration can be overriden on the .env config file, in particular to **set an api key to secure the server in production**.
 
 A docker image can be built by running
 ```sh
