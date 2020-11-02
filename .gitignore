@@ -9,6 +9,7 @@ dist/
 
 # Deployment scripts
 build_to_gcp.bat
+debug.log
 
 # Compiled Java class files
 *.class
@@ -53,4 +54,4 @@ Thumbs.db
 *.png
 
 # Config file
-config.js
+.env

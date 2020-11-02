@@ -41,40 +41,6 @@ function attachCookies(cookies, res) {
   return updated_response;
 };
 
-// Enhance networkidle functionality
-function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
-  page.on('request', onRequestStarted);
-  page.on('requestfinished', onRequestFinished);
-  page.on('requestfailed', onRequestFinished);
-
-  let inflight = 0;
-  let fulfill;
-  let promise = new Promise(x => fulfill = x);
-  let timeoutId = setTimeout(onTimeoutDone, timeout);
-  return promise;
-
-  function onTimeoutDone() {
-    page.removeListener('request', onRequestStarted);
-    page.removeListener('requestfinished', onRequestFinished);
-    page.removeListener('requestfailed', onRequestFinished);
-    fulfill();
-  }
-
-  function onRequestStarted() {
-    ++inflight;
-    if (inflight > maxInflightRequests)
-      clearTimeout(timeoutId);
-  }
-  
-  function onRequestFinished() {
-    if (inflight === 0)
-      return;
-    --inflight;
-    if (inflight === maxInflightRequests)
-      timeoutId = setTimeout(onTimeoutDone, timeout);
-  }
-}
-
 ////
 
 // Create express server
@@ -212,9 +178,10 @@ app.all('*', async (req, res, next) => {
     
     // Navigate to page and wait for network to be idle for 1s
     console.log('Going to page...');
+    await res.locals.page.goto(url, { waitUntil: process.env.APP_NETWORKIDLE_PROCESSES})
     await Promise.all([
-      res.locals.page.goto(url),
-      waitForNetworkIdle(res.locals.page, process.env.APP_NETWORKIDLE_TIME, process.env.APP_NETWORKIDLE_PROCESSES),
+      res.locals.page.waitForNavigation({waitUntil: process.env.APP_NETWORKIDLE_PROCESSES}),
+      res.locals.page.evaluate(() => history.pushState(null, null, '#'))
     ]);
     next();
   } catch(e) {

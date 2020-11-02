@@ -1,14 +1,13 @@
 # CHRome As A Service
 
 **Chraas:** an Express server running headless Chrome as a service.
-1. Supports setting of **custom headers, cookies and proxies** through a JSON API.
-2. Returns cookies set by the target server as Set-Cookie headers
-3. Implements **stealth tactics** provided by the great [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth)
+1. Supports setting of **custom headers, cookies and proxies** through a simple JSON API.
+2. Returns cookies set by the target with Set-Cookie headers.
+3. Implements **stealth tactics** by the excellent [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth) module to avoid bot detection.
 
 ## Usage
 
-Can be used as a gateway server for scraping websites where javascript needs to be
-rendered or where resources are blocked if javascript capabilities are not available (bot detection, browser fingerprinting)
+To be used as a gateway server for rendering websites that require javascript execution or are protected by a firewall that tests javascript execution (bot detection, browser fingerprinting etc.)
 
 ## Install
 
@@ -22,9 +21,9 @@ $ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 $ dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 ```
 
-Default configuration can be overriden on the .env config file, in particular to **set an api key to protect the server in production**
+Default configuration can be overriden on the .env config file, in particular to **set an api key to protect the server in production**.
 
-A docker image of the project can be built by running
+A docker image can be built by running
 ```sh
 docker build
 ```
@@ -34,7 +33,7 @@ In the project folder, run
 ```sh
 node index.js
 ```
-Server will be listening on **port 8080** by default, port can be overriden in the .env config file
+The server will be listening on **port 8080** by default and the port can be overriden in the .env config file.
 
 ## API
 
@@ -48,31 +47,27 @@ Set custom proxies, headers and cookies sending a json payload as below.
 
 ```js
 {
-    "url":"xxx",
-    "api_key":"xxx",
+    "url":"https://www.httpbin.org/headers",
+    "api_key":"",
     "proxy": {
-        "host":"xxx",
-        "port":"xxx",
-        "user":"xxx",
-        "password":"xxx" 
+        "host":"example_host",
+        "port":"8080",
+        "user":"example_user",
+        "password":"example_password" 
     },
     "headers": {
-        "Accept":"xxx",
-        "Accept-Language":"xxx",
-        "XXX":"xxx"
+        "Accept":"text/html,application/xhtml+xml,application/xml",
+        "Accept-Language":"en-US,en;q=0.9",
+        "My-Custom-Header":"example_value"
     },
     "cookies": [
         {
-        "name":"xxx",
-        "value":"xxx",
-        "...":"xxx",
-        "...": "xxx"
+        "name":"example_first_cookie_name",
+        "value":"example_first_cookie_value"
         },
         {
-        "name":"xxx",
-        "value":"xxx",
-        "...":"xxx",
-        "...": "xxx"
+        "name":"example_second_cookie_name",
+        "value":"example_second_cookie_value"
         }
     ],
 }
