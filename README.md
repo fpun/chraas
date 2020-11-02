@@ -20,7 +20,7 @@ $ apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 lib
 $ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 $ dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 ```
-
+Make a copy of .env.template and rename it .env
 Default configuration can be overriden on the .env config file, in particular to **set an api key to protect the server in production**.
 
 A docker image can be built by running
